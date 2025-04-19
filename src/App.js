@@ -3,10 +3,11 @@ import { getWeather, getForecast, getAirQuality } from "./utils/api";
 import WeatherCard from "./components/WeatherCard";
 import ForecastChart from "./components/ForecastChart";
 import AirQualityCard from "./components/AirQualityCard";
+import { DEFAULT_CITY, USER_SELECTED_CITY } from "./utils/const";
 import "./App.css";
 
 const App = () => {
-  const [city, setCity] = useState("Hanoi");
+  const [city, setCity] = useState(() => localStorage.getItem(USER_SELECTED_CITY) || DEFAULT_CITY);
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [airQualityData, setAirQualityData] = useState(null);
@@ -14,12 +15,15 @@ const App = () => {
   const [debouncedCity, setDebouncedCity] = useState(city);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedCity(city);
-    }, 500);
+    const savedCity = localStorage.getItem(USER_SELECTED_CITY);
+    if (savedCity) setCity(savedCity);
+  }, []);
 
+  useEffect(() => {
+    localStorage.setItem(USER_SELECTED_CITY, city);
+    const timer = setTimeout(() => setDebouncedCity(city), 500);
     return () => clearTimeout(timer);
-  }, [city]);
+  }, [city]);  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,12 +33,10 @@ const App = () => {
 
       if (weather?.coord) {
         const { lat, lon } = weather.coord;
-
         const [forecast, airQuality] = await Promise.all([
           getForecast(lat, lon),
           getAirQuality(lat, lon),
         ]);
-
         setForecastData(forecast);
         setAirQualityData(airQuality);
       }
@@ -67,24 +69,21 @@ const App = () => {
       {loading ? (
         <p className="text-center text-gray-700 mt-12">Loading data...</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Weather Now */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
           {weatherData && (
             <div className="bg-white bg-opacity-50 backdrop-blur-lg rounded-2xl shadow-lg p-6 h-full">
               <WeatherCard data={weatherData} />
             </div>
           )}
 
-          {/* Forecast Chart */}
           {forecastData && (
-            <div className="bg-white bg-opacity-50 backdrop-blur-md rounded-2xl shadow-md p-6 col-span-1 h-full">
+            <div className="bg-white bg-opacity-50 backdrop-blur-md rounded-2xl shadow-md p-6 h-full">
               <ForecastChart data={forecastData} />
             </div>
           )}
 
-          {/* Air Quality */}
           {airQualityData && (
-            <div className="bg-white bg-opacity-50 backdrop-blur-lg rounded-2xl shadow-lg p-6 col-span-1">
+            <div className="bg-white bg-opacity-50 backdrop-blur-lg rounded-2xl shadow-lg p-6 h-full">
               <AirQualityCard data={airQualityData} />
             </div>
           )}

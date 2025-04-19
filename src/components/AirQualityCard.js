@@ -16,7 +16,7 @@ const AirQualityCard = ({ data }) => {
   const { label, color } = aqiDescriptions[aqi];
 
   return (
-    <div className="max-w-md h-full flex flex-col justify-center items-center text-center">
+    <div className="h-full flex flex-col justify-center items-center text-center">
       <h3 className="text-lg font-semibold mb-4 text-center">Chất lượng không khí</h3>
       <div className={`flex items-center justify-center text-xl text-white w-1/2 py-2 font-bold rounded ${color}`}>
         {label} (AQI: {aqi})
