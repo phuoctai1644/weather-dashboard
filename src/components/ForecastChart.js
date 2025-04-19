@@ -57,7 +57,7 @@ const ForecastChart = ({ data }) => {
   };
 
   return (
-    <div className="p-6 mt-6 bg-white rounded-2xl shadow-md max-w-3xl mx-auto">
+    <div className="p-6 rounded-2xl max-w-3xl mx-auto">
       <h3 className="text-lg font-semibold mb-4 text-center">Dự báo (nhóm theo ngày)</h3>
       <Line data={chartData} />
     </div>
