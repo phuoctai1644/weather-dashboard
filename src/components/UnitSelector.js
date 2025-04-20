@@ -5,7 +5,7 @@ const UnitSelector = ({ unit, onUnitChange }) => {
   const selected = TEMPERATURE_UNITS.find((u) => u.value === unit);
 
   return (
-    <div className="w-full max-w-xs mx-auto mt-6">
+    <div className="w-full max-w-xs mx-auto">
       <Listbox value={unit} onChange={onUnitChange}>
         <div className="relative">
           <Listbox.Button className="w-full rounded-xl bg-white bg-opacity-70 backdrop-blur-md py-2 px-4 text-left font-semibold border border-gray-300 shadow-md flex justify-between items-center hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400">

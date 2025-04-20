@@ -31,15 +31,19 @@ const App = () => {
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-blue-400 p-8 font-sans">
       <header className="text-center mb-10">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">🌤️ Weather Dashboard</h1>
-        <input
-          type="text"
-          value={city}
-          onChange={handleInputChange}
-          placeholder="Enter city (e.g., Hanoi)"
-          className="px-5 py-3 w-full max-w-md rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white bg-opacity-50 backdrop-blur-md"
-        />
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+          <input
+            type="text"
+            value={city}
+            onChange={handleInputChange}
+            placeholder="Enter city (e.g., Hanoi)"
+            className="px-5 py-3 w-full max-w-md rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white bg-opacity-50 backdrop-blur-md"
+          />
 
-        <UnitSelector unit={unit} onUnitChange={setUnit} />
+          <div className="w-full max-w-[200px]">
+            <UnitSelector unit={unit} onUnitChange={setUnit} />
+          </div>
+        </div>
       </header>
 
       {initialLoading ? (
