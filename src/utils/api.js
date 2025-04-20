@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = '77e8b7756760fcc4531d4fb93070edaf';
+export const API_KEY = '77e8b7756760fcc4531d4fb93070edaf';
 
 const apiClient = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5',
@@ -10,11 +10,10 @@ const apiClient = axios.create({
   },
 });
 
-export const getWeather = async (city) => {
+export const getWeather = async (city, lat = null, lon = null) => {
   try {
-    const response = await apiClient.get('/weather', {
-      params: { q: city },
-    });
+    const params = lat && lon ? { lat, lon } : { q: city };
+    const response = await apiClient.get('/weather', { params });
     return response.data;
   } catch (error) {
     console.error('Error fetching weather data:', error);

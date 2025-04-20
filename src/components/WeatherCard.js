@@ -2,10 +2,17 @@ import useSmoothLoading from "../hooks/useSmoothLoading";
 import useWeather from "../hooks/useWeather";
 import { convertTemperature } from "../utils/helper";
 import { TEMPERATURE_UNITS } from "../utils/const";
+import { useEffect } from "react";
 
-const WeatherCard = ({ city, unit }) => {
-  const { weather, loading, error } = useWeather(city, unit);
+const WeatherCard = ({ city, unit, lat = null, lon = null, onResolvedCity }) => {
+  const { weather, loading, error } = useWeather(city, lat, lon);
   const isLoading = useSmoothLoading(loading);
+
+  useEffect(() => {
+    if (weather?.name && onResolvedCity && weather.name !== city) {
+      onResolvedCity(weather.name);
+    }
+  }, [weather?.name]);
 
   const loadingSkeleton = (
     <div className="min-h-[300px] flex flex-col justify-center items-center animate-pulse text-center">

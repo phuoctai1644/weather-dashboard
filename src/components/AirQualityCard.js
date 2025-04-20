@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAirQuality } from "../utils/api";
 import useWeather from "../hooks/useWeather";
-import useSmoothLoading from "../hooks/useSmoothLoading"; // Import custom hook
+import useSmoothLoading from "../hooks/useSmoothLoading";
 
 const aqiDescriptions = {
   1: { label: "Tốt", color: "bg-green-500" },
@@ -11,8 +11,8 @@ const aqiDescriptions = {
   5: { label: "Rất kém", color: "bg-red-500" },
 };
 
-const AirQualityCard = ({ city }) => {
-  const { coord, loading: coordLoading, error: coordError } = useWeather(city);
+const AirQualityCard = ({ city, lat = null, lon = null }) => {
+  const { coord, loading: coordLoading, error: coordError } = useWeather(city, lat, lon);
   const [airData, setAirData] = useState(null);
   const [loading, setLoading] = useState(true);
   const isLoading = useSmoothLoading(coordLoading || loading);

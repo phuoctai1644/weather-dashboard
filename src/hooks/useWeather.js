@@ -1,8 +1,7 @@
-// hooks/useWeather.js
 import { useState, useEffect } from "react";
 import { getWeather } from "../utils/api";
 
-const useWeather = (city) => {
+const useWeather = (city, lat = null, lon = null) => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +12,7 @@ const useWeather = (city) => {
     const fetchWeather = async () => {
       setLoading(true);
       try {
-        const data = await getWeather(city);
+        const data = await getWeather(city, lat, lon);
         if (!cancelled) {
           if (data) {
             setWeather(data);
@@ -38,7 +37,7 @@ const useWeather = (city) => {
     return () => {
       cancelled = true;
     };
-  }, [city]);
+  }, [city, lat, lon]);
 
   return {
     weather,

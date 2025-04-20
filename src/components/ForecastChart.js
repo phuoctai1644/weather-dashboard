@@ -18,8 +18,8 @@ import { TEMPERATURE_UNITS } from "../utils/const";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const ForecastChart = ({ city, unit }) => {
-  const { coord, loading: coordLoading, error: coordError } = useWeather(city);
+const ForecastChart = ({ city, unit, lat = null, lon = null }) => {
+  const { coord, loading: coordLoading, error: coordError } = useWeather(city, lat, lon);
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
   const isLoading = useSmoothLoading(coordLoading || loading);
