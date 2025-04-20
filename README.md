@@ -5,8 +5,9 @@ This project is a weather dashboard application built with [Create React App](ht
 ## Features
 
 - Search for weather information by city name.
-- View current temperature, humidity, and weather conditions.
-- 5-day weather forecast with detailed information.
+- View current temperature, humidity, wind speed, and weather conditions.
+- 7-day weather forecast with detailed information.
+- Interactive map to visualize weather conditions globally.
 - Responsive design for seamless use on different devices.
 
 ## Available Scripts
@@ -67,3 +68,16 @@ This project can be deployed to platforms like [Netlify](https://www.netlify.com
 ## Troubleshooting
 
 If you encounter issues during the build process, refer to the [troubleshooting guide](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify).
+
+## Additional Notes
+
+- Ensure you have the latest version of Node.js installed for compatibility.
+- The interactive map feature requires enabling the `REACT_APP_MAP_API_KEY` in the `.env` file.
+- Contributions are welcome! Feel free to submit a pull request or open an issue for suggestions.
+- For styling, this project uses [Tailwind CSS](https://tailwindcss.com/).
+- Unit tests are written using [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/).
+- CI/CD pipelines are configured using GitHub Actions.
+- For global weather visualization, the project integrates with [Leaflet.js](https://leafletjs.com/).
+- Make sure to review the `.env.example` file for all required environment variables.
+- Documentation for the API endpoints used can be found [here](https://openweathermap.org/api).
+

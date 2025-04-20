@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import WeatherCard from "./components/WeatherCard";
 import ForecastChart from "./components/ForecastChart";
 import AirQualityCard from "./components/AirQualityCard";
-import { DEFAULT_CITY, USER_SELECTED_CITY } from "./utils/const";
+import UnitSelector from "./components/UnitSelector";
+import { DEFAULT_CITY, TemperatureUnit, USER_SELECTED_CITY } from "./utils/const";
 import "./App.css";
 
 const App = () => {
   const [city, setCity] = useState(() => localStorage.getItem(USER_SELECTED_CITY) || DEFAULT_CITY);
   const [debouncedCity, setDebouncedCity] = useState(city);
+  const [unit, setUnit] = useState(TemperatureUnit.METRIC);
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
@@ -36,6 +38,8 @@ const App = () => {
           placeholder="Enter city (e.g., Hanoi)"
           className="px-5 py-3 w-full max-w-md rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white bg-opacity-50 backdrop-blur-md"
         />
+
+        <UnitSelector unit={unit} onUnitChange={setUnit} />
       </header>
 
       {initialLoading ? (
@@ -43,11 +47,11 @@ const App = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
           <div className="bg-white bg-opacity-50 backdrop-blur-lg rounded-2xl shadow-lg p-6 h-full">
-            <WeatherCard city={debouncedCity} />
+            <WeatherCard city={debouncedCity} unit={unit} />
           </div>
 
           <div className="bg-white bg-opacity-50 backdrop-blur-md rounded-2xl shadow-md p-6 h-full">
-            <ForecastChart city={debouncedCity} />
+            <ForecastChart city={debouncedCity} unit={unit} />
           </div>
 
           <div className="bg-white bg-opacity-50 backdrop-blur-lg rounded-2xl shadow-lg p-6 h-full">

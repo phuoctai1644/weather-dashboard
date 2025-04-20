@@ -13,10 +13,12 @@ import {
 import { getForecast } from "../utils/api";
 import useWeather from "../hooks/useWeather";
 import useSmoothLoading from "../hooks/useSmoothLoading";
+import { convertTemperature } from "../utils/helper";
+import { TEMPERATURE_UNITS } from "../utils/const";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const ForecastChart = ({ city }) => {
+const ForecastChart = ({ city, unit }) => {
   const { coord, loading: coordLoading, error: coordError } = useWeather(city);
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,6 @@ const ForecastChart = ({ city }) => {
   if (coordError) return <div className="text-red-500">{coordError}</div>;
   if (!forecast || !forecast.list) return null;
 
-  // Nhóm dữ liệu theo ngày
   const daysMap = forecast.list.reduce((acc, item) => {
     const dateObj = new Date(item.dt * 1000);
     const dayString = dateObj.toLocaleDateString("vi-VN", { weekday: "short" });
@@ -59,21 +60,27 @@ const ForecastChart = ({ city }) => {
   }, {});
 
   const dayLabels = Object.keys(daysMap);
-  const tempsMax = dayLabels.map((day) => Math.max(...daysMap[day]));
-  const tempsMin = dayLabels.map((day) => Math.min(...daysMap[day]));
+  const tempsMax = dayLabels.map((day) =>
+    convertTemperature(Math.max(...daysMap[day]), unit)
+  );
+  const tempsMin = dayLabels.map((day) =>
+    convertTemperature(Math.min(...daysMap[day]), unit)
+  );
+
+  const unitInfo = TEMPERATURE_UNITS.find((u) => u.value === unit);
 
   const chartData = {
     labels: dayLabels,
     datasets: [
       {
-        label: "Nhiệt độ cao nhất (°C)",
+        label: `Nhiệt độ cao nhất (${unitInfo?.symbol})`,
         data: tempsMax,
         fill: false,
         borderColor: "#FF0000",
         tension: 0.4,
       },
       {
-        label: "Nhiệt độ thấp nhất (°C)",
+        label: `Nhiệt độ thấp nhất (${unitInfo?.symbol})`,
         data: tempsMin,
         fill: false,
         borderColor: "#0000FF",
